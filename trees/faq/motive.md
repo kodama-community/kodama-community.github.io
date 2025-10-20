@@ -17,8 +17,8 @@ $\gdef\kodama{\href{https://kodama-community.github.io/}{\includegraphics[height
 
 The original motivation for the $\kodama$ project was to create a static blog engine that truly satisfied my needs, similar to what [Hexo][hexo], [Hugo][hugo], [Zola][zola] and [others](../ssg.md) do. 
 
-- Unfortunately, for various reasons, these static site generators (SSGs) all have issues when it comes to mathematical writing, which severely limits expressive power. This frustration persisted until I discovered $\typst$ and $\typst$.
-  
+- Unfortunately, for various reasons, these static site generators (SSGs) all have issues when it comes to mathematical writing, which severely limits expressive power. This frustration persisted until I discovered $\forester$ and $\typst$.
+
 - I believe $\forester$ can meet the complex demands of mathematical writing, but if I wanted to migrate my old blog posts, I'd have to completely rewrite them. Another factor was LaTeX's slow compilation speed and suboptimal editing experience. So, I decided to replace $\forester$'s $\katex$ + $\latex$ scheme with $\katex$ + $\typst$.
   
 - There's also a smaller, yet still important, reason: I wanted a fully automatic dark theme that just works [out-of-the-box][ootb].
