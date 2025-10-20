@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width"><title>Frequently asked questions</title><style>:root {
+<meta name="viewport" content="width=device-width"><title>Frequently asked questions</title><link rel="icon" href="https://kodama-community.github.io/assets/favicon.ico" /><style>:root {
   color-scheme: light dark;
   --content-gap: 15px;
   --radius: 5px;
@@ -81,7 +81,7 @@ code {
   border-radius: var(--radius);
   background-color: var(--background-color-code);
   padding: 0.2em;
-  font-size: 0.9em;
+  font-size: 1em;
 }
 
 table {
@@ -143,6 +143,11 @@ pre > code {
 
 p:has(span.katex-html:empty) {
   display: none;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
 }
 
 .display-none {
