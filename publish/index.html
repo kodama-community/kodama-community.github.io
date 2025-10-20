@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en-US"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width"><title>The Kodama Project</title><style>:root {
+  color-scheme: light dark;
+  --content-gap: 15px;
+  --radius: 5px;
+  --article-max-width: 90ex;
+  --toc-max-width: 90ex;
+
+  --text-color: black;
+  --background-color: white;
+
+  --background-color-pre: rgba(0, 100, 100, 0.04);
+  --background-color-code: rgba(0, 100, 100, 0.04);
+
+  --hover-color-block: rgba(0, 100, 255, 0.04);
+  --hover-color-link: rgba(0, 100, 255, 0.1);
+  --target-color: rgb(67, 92, 255);
+
+  --link-color: black;
+  --slug-color: gray;
+  --logo-color: #666;
+  --logo-hover-color: #aaa;
+  --span-taxon-color: #444;
+  --article-taxon-color: #888;
+  --mark-color: rgb(255, 255, 151);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: white;
+    --background-color: #2f2f2f;
+
+    --background-color-pre: rgba(100, 100, 100, 0.2);
+    --background-color-code: rgba(150, 150, 150, 0.2);
+
+    --hover-color-block: rgba(100, 162, 255, 0.06);
+    --hover-color-link: rgba(100, 162, 255, 0.2);
+    --target-color: rgb(255, 255, 151);
+
+    --link-color: white;
+    --slug-color: #aeaeae;
+    --logo-color: #999;
+    --logo-hover-color: #eee;
+    --span-taxon-color: #bbb;
+  }
+}
+
+body {
+  font-optical-sizing: auto;
+  hyphens: auto;
+  background-color: var(--background-color);
+}
+
+pre,
+code {
+  font-optical-sizing: auto;
+}
+
+p,
+pre {
+  line-height: 1.55;
+}
+
+pre {
+  border-radius: var(--radius);
+  background-color: var(--background-color-pre);
+  padding: 0.5em;
+  font-size: 11pt;
+  margin-top: 0em;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+code {
+  border-radius: var(--radius);
+  background-color: var(--background-color-code);
+  padding: 0.2em;
+  font-size: 0.9em;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* !forest */
+th {
+  font-weight: normal;
+  text-align: left;
+}
+
+th,
+td {
+  padding: 0 15px;
+  vertical-align: top;
+}
+
+/* !forest */
+pre > code {
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
+}
+
+/* !forest */
+.footnote-definition:last-child {
+  margin-bottom: 1em;
+}
+
+/* !forest */
+.footnote-definition > p {
+  display: inline;
+}
+
+/* !forest */
+.footnote-definition-label {
+  margin-right: 4px;
+}
+
+/* !forest */
+.footnote-reference:target {
+  border: 1px solid var(--target-color);
+}
+
+.footnote-definition:target > .footnote-definition-label {
+  border: 1px solid var(--target-color);
+}
+
+.footnote-reference::before,
+.footnote-definition-label::before {
+  content: "[";
+}
+
+.footnote-reference::after,
+.footnote-definition-label::after {
+  content: "]";
+}
+
+p:has(span.katex-html:empty) {
+  display: none;
+}
+
+.display-none {
+  display: none;
+}
+
+blockquote {
+  font-style: italic;
+}
+
+blockquote {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 40px;
+  margin-inline-end: 40px;
+  unicode-bidi: isolate;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin-top: 0.5em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+h5,
+h6,
+p {
+  margin-top: 0;
+}
+
+details > summary {
+  list-style-type: none;
+  outline: none;
+}
+
+details > summary > header {
+  display: inline;
+}
+
+/* no effect */
+details > summary::marker,
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details h1 {
+  font-size: 1.2em;
+  display: inline;
+}
+
+details > summary {
+  list-style-type: none;
+}
+
+span.taxon {
+  color: var(--span-taxon-color);
+  font-weight: 500;
+}
+
+section .block[data-taxon] details > summary > header > h1 {
+  font-size: 13pt;
+}
+
+article > section > details > summary > header > h1 {
+  font-size: 1.5em;
+}
+
+article > section > details > summary > header {
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+article > section > details > summary > header > h1 > .taxon {
+  display: block;
+  font-size: 0.9em;
+  color: var(--article-taxon-color);
+  padding-bottom: 5pt;
+}
+
+article > section > details > summary > header > h1 > .taxon:empty {
+  display: none;
+}
+
+section.block > details {
+  margin-bottom: 0.4em;
+}
+
+section.block > details[open] {
+  margin-bottom: 1em;
+}
+
+.link-list > section.block > details {
+  margin-bottom: 0.25em;
+}
+
+/* class */
+.inline-typst {
+  display: inline-block;
+  margin: 0 0;
+  line-height: 1em;
+  vertical-align: middle;
+}
+
+.block {
+  padding-left: 5px;
+  padding-right: 10px;
+  padding-bottom: 2px;
+  border-radius: 5px;
+}
+
+.block {
+  /* width: fit-content; */
+  border-radius: var(--radius);
+}
+
+.block:hover {
+  background-color: var(--hover-color-block);
+}
+
+.block.hide-metadata > details > summary > header > .metadata {
+  display: none;
+}
+
+img {
+  object-fit: cover;
+  max-width: 100%;
+}
+
+figure {
+  text-align: center;
+}
+
+figcaption {
+  font-style: italic;
+  padding: 3px;
+}
+
+mark {
+  background-color: var(--mark-color);
+}
+
+hr {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  background-color: gray;
+  border: 0 none;
+  width: 100%;
+  height: 1pt;
+}
+
+ul,
+ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.logo > span {
+  color: var(--logo-color);
+  text-decoration: none;
+}
+
+.logo > span:hover {
+  color: var(--logo-hover-color);
+}
+
+.logo {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+section
+  section[data-taxon="Reference"]
+  > details
+  > summary
+  > header
+  > h1
+  > .taxon,
+section
+  section[data-taxon="Person"]
+  > details
+  > summary
+  > header
+  > h1
+  > .taxon {
+  display: none;
+}
+
+section .block[data-taxon] > header > h1,
+section .block[data-taxon] details > summary > header > h1 {
+  font-size: 13pt;
+}
+
+footer > section {
+  margin-bottom: 1em;
+}
+
+footer h2 {
+  font-size: 14pt;
+}
+
+.metadata ul {
+  padding-left: 0;
+  display: inline;
+}
+
+.metadata li::after {
+  content: " · ";
+}
+
+.metadata li:last-child::after {
+  content: "";
+}
+
+.metadata * {
+  display: inline;
+}
+
+.link {
+  cursor: pointer;
+}
+
+a {
+  color: var(--link-color);
+  text-decoration: inherit;
+}
+
+a.slug:hover,
+a.bullet:hover,
+.edit-button:hover,
+.link:hover {
+  background-color: var(--hover-color-link);
+}
+
+.link.external {
+  text-decoration: underline;
+}
+
+.link.asset {
+  text-decoration: underline;
+}
+
+.link.asset::before {
+  content: "[F] ";
+}
+
+a.link.local,
+.link.local a,
+a.slug {
+  box-shadow: none;
+  text-decoration-line: underline;
+  text-decoration-style: dotted;
+}
+
+.slug,
+.doi,
+.orcid {
+  color: var(--slug-color);
+  font-weight: 200;
+}
+
+body > header {
+  margin-bottom: 0.5em;
+}
+
+#grid-wrapper > article {
+  max-width: var(--article-max-width);
+  margin-right: auto;
+  grid-area: article;
+}
+
+@media only screen and (max-width: 1000px) {
+  body {
+    margin-top: 1em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    transition: ease all 0.2s;
+  }
+
+  #grid-wrapper > nav {
+    transition: ease all 0.2s;
+  }
+
+  .mobile-sticky-nav {
+    position: sticky;
+    top: 0px;
+    max-height: calc(100vh - 0px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+
+    background-color: var(--background-color);
+    z-index: 7;
+    border-bottom: solid var(--text-color);
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  body {
+    margin-top: 2em;
+    margin-left: 2em;
+    transition: ease all 0.2s;
+  }
+
+  #grid-wrapper {
+    display: grid;
+    grid-auto-flow: column;
+  }
+
+  .sticky-nav {
+    position: sticky;
+    top: 0px;
+    max-height: calc(100vh - 0px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    margin-top: -2em;
+  }
+
+  .sticky-nav > div.block {
+    margin-top: 2em;
+  }
+}
+
+nav#toc li.item-summary li {
+  display: none;
+}
+
+nav#toc ul {
+  list-style-type: none;
+}
+
+nav#toc li > ul {
+  margin: 0;
+  padding-left: 1em;
+}
+
+nav#toc,
+nav#toc a {
+  color: light-dark(#555, white);
+}
+
+nav#toc {
+  grid-area: toc;
+}
+
+nav {
+  font-optical-sizing: auto;
+}
+
+nav#toc a.bullet {
+  opacity: 0.7;
+  margin-left: 0.4em;
+  margin-right: 0.3em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+  text-decoration: none;
+}
+/* For embeded SVG source. */
+
+:root {
+  --typst-text-color: black;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --typst-text-color: white;
+  }
+}
+
+.typst-text use[fill="#000000"] {
+  fill: var(--typst-text-color);
+}
+
+.typst-group use[fill="#000000"] {
+  fill: var(--typst-text-color);
+}
+
+path.typst-shape[fill="#000000"] {
+  fill: var(--typst-text-color);
+}
+
+path.typst-shape[stroke="#000000"] {
+  stroke: var(--typst-text-color);
+}
+
+/* For external SVG files. */
+
+@media (prefers-color-scheme: dark) {
+  .color-invert {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
+</style><style>
+@media only screen and (min-width: 1000px) {
+  #grid-wrapper { grid-template-columns: max-content var(--article-max-width); }
+  nav#toc { max-width: 45ex; }
+}
+</style><link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+   href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap"
+   rel="stylesheet"
+/>
+
+<style>
+   body {
+      font-family: "Inria Sans", sans-serif;
+      line-height: 1.55;
+   }
+
+   pre,
+   code {
+      font-family: monospace;
+   }
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   h6 {
+      font-family: "Inria Sans", sans-serif;
+   }
+
+   nav {
+      font-family: "Inria Sans", sans-serif;
+   }
+
+   thead {
+      font-family: "Inria Sans", sans-serif;
+   }
+</style>
+<link
+   rel="stylesheet"
+   href="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.css"
+   integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib"
+   crossorigin="anonymous"
+/>
+<script
+   defer
+   src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/katex.min.js"
+   integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh"
+   crossorigin="anonymous"
+></script>
+<script
+   defer
+   src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/auto-render.min.js"
+   integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh"
+   crossorigin="anonymous"
+></script>
+<script
+   src="https://cdn.jsdelivr.net/npm/katex@0.16.21/dist/contrib/copy-tex.min.js"
+   integrity="sha384-HORx6nWi8j5/mYA+y57/9/CZc5z8HnEw4WUZWy5yOn9ToKBv1l58vJaufFAn9Zzi"
+   crossorigin="anonymous"
+></script>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+      renderMathInElement(document.body, {
+         delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false },
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+         ],
+         trust: true,
+         strict: false,
+         throwOnError: false,
+         minRuleThickness: 0.05,
+      });
+   });
+</script>
+
+<style>
+   /* We adjust `.katex font-size` to match the default text font "Inria Sans". */
+   .katex {
+      font-size: 1.15em !important;
+   }
+</style>
+<script>
+   function toggleDetailsOpen() {
+      const details = document.querySelector("#toc>div>details");
+      if (!details) return;
+
+      if (window.matchMedia("(max-width: 1000px)").matches) {
+         details.removeAttribute("open");
+      } else {
+         details.setAttribute("open", "");
+      }
+   }
+
+   document.addEventListener("DOMContentLoaded", toggleDetailsOpen);
+   window.addEventListener("resize", toggleDetailsOpen);
+</script>
+</head><body><div id="grid-wrapper" style="grid-template-areas: 'toc article';"><nav id="toc" class="sticky-nav mobile-sticky-nav"><div class="block"><details open=""><summary><h1>Table of Contents</h1></summary><ul class="block"><li class=""><a class="bullet" href="https://kodama-community.github.io/aslt.html" title="Is there any software like that? [aslt]">■</a><span class="link local" onclick="window.location.href='#aslt'"><span class="taxon"> 1. </span>Is there any software like that?</span></li><li class=""><a class="bullet" href="https://kodama-community.github.io/faq.html" title="Frequently asked questions [faq]">■</a><span class="link local" onclick="window.location.href='#faq'"><span class="taxon"> 2. </span>Frequently asked questions</span><ul class="block"><li class=""><a class="bullet" href="https://kodama-community.github.io/faq/stable.html" title="Is this project stable yet? [faq/stable]">■</a><span class="link local" onclick="window.location.href='#faq-stable'"><span class="taxon">FAQ 2.1. </span>Is this project stable yet?</span></li><li class=""><a class="bullet" href="https://kodama-community.github.io/faq/ssg.html" title="Is this just a static site generator? [faq/ssg]">■</a><span class="link local" onclick="window.location.href='#faq-ssg'"><span class="taxon">FAQ 2.2. </span>Is this just a static site generator?</span></li><li class=""><a class="bullet" href="https://kodama-community.github.io/faq/motive.html" title="What motivated you to develop Kodama? [faq/motive]">■</a><span class="link local" onclick="window.location.href='#faq-motive'"><span class="taxon">FAQ 2.3. </span>What motivated you to develop $\href{https://kodama-community.github.io/}{\includegraphics[height=0.7em, totalheight=0.7em, width=0.755em, alt=logo]{/assets/kodama.svg} ~ \color{fe7f7e}\text{Kodama}}$?</span></li><li class=""><a class="bullet" href="https://kodama-community.github.io/faq/mascot.html" title="What kind of animal is this? [faq/mascot]">■</a><span class="link local" onclick="window.location.href='#faq-mascot'"><span class="taxon">FAQ 2.4. </span>What kind of animal is this?</span></li></ul></li></ul></details></div></nav>
+
+<article><section class="block" data-taxon=""><details open><summary id="index"><header><h1><span class="taxon"></span>The $\href{https://kodama-community.github.io/}{\includegraphics[height=0.7em, totalheight=0.7em, width=0.755em, alt=logo]{/assets/kodama.svg} ~ \color{fe7f7e}\text{Kodama}}$ Project <a class="slug" href="https://kodama-community.github.io/index.html">[index]</a></h1><div class="metadata"><ul><li class="meta-item"><span class="link external"><a href="https://github.com/kokic/kodama" title="[GitHub] [https://github.com/kokic/kodama]">[GitHub]</a></span></li><li class="meta-item"><span class="link external"><a href="https://discord.gg/mbeF8J6rXX" title="[Discord] [https://discord.gg/mbeF8J6rXX]">[Discord]</a></span></li><li class="meta-item"><span class="link external"><a href="https://github.com/kokic/kodama/blob/main/LICENSE" title="GNU General Public License v3.0 [https://github.com/kokic/kodama/blob/main/LICENSE]">GNU General Public License v3.0</a></span></li></ul></div></header></summary><p><section class="block hide-metadata" data-taxon=""><details open><summary id="aslt"><header><h1><span class="taxon"> 1. </span>Is there any software like that? <a class="slug" href="https://kodama-community.github.io/aslt.html">[aslt]</a></h1><div class="metadata"><ul></ul></div></header></summary>
+<p>$\gdef\latex{\href{https://www.latex-project.org/}{\color{#008080}\LaTeX}}$</p>
+<p>$\gdef\gerby{\href{https://gerby-project.github.io/}{\color{#c5000c} \text{Gerby}}}$</p>
+<p>$\gdef\katex{\href{https://katex.org/}{\color{#329894} \KaTeX}}$</p>
+<p>$\gdef\obsidian{\href{https://obsidian.md/}{\color{#a78bfa} \text{Obsidian}}}$</p>
+<p>$\gdef\forester{\href{https://www.forester-notes.org/index/index.xml}{\color{#00B770} \text{Forester}}}$</p>
+<p>$\gdef\typst{\href{https://typst.app/}{\color{#239dad} \text{Typst}}}$</p>
+<ul>
+<li>
+<p>$\obsidian$ looks great and has a rich ecosystem of community plugins, but I’d really prefer if it could:</p>
+<ul>
+<li>Not break the rendering of normal $\katex$ formulas I write.</li>
+<li>Support drawing non-rectangular commutative diagrams.</li>
+<li>Provide theorem environments or something similar.</li>
+<li>Be lightweight — my disk space is running dangerously low from all the <span class="link external"><a href="https://www.electronjs.org/" title="Electron [https://www.electronjs.org/]">Electron</a></span>-based apps I’ve already installed.</li>
+<li>Work well on mobile devices with the help of a terminal emulator like <span class="link external"><a href="https://termux.dev/en/" title="Termux [https://termux.dev/en/]">Termux</a></span>.</li>
+</ul>
+</li>
+<li>
+<p>$\forester$ looks great, but …</p>
+<ul>
+<li>I’d prefer to write in <span class="link external"><a href="https://commonmark.org/" title="Markdown [https://commonmark.org/]">Markdown</a></span> and $\typst$.</li>
+<li>I want an <span class="link external"><a href="https://en.wikipedia.org/wiki/Out_of_the_box_(feature)" title="out-of-the-box [https://en.wikipedia.org/wiki/Out_of_the_box_(feature)]">out-of-the-box</a></span> dark theme, and vector graphics rendered by the application should also have their colors properly adjusted.</li>
+<li>I’d like a table of contents that’s always available, even on small-screen devices.</li>
+</ul>
+</li>
+<li>
+<p>$\gerby$ looks great, but …</p>
+<ul>
+<li>I don’t intend to write in $\latex$.</li>
+<li>I can’t fully accept <span class="link external"><a href="https://stacks.math.columbia.edu/tags" title="the tag system [https://stacks.math.columbia.edu/tags]">the tag system</a></span>.</li>
+</ul>
+</li>
+</ul>
+</details></section>
+<section class="block hide-metadata" data-taxon=""><details open><summary id="faq"><header><h1><span class="taxon"> 2. </span>Frequently asked questions <a class="slug" href="https://kodama-community.github.io/faq.html">[faq]</a></h1><div class="metadata"><ul></ul></div></header></summary>
+<p><section class="block hide-metadata" data-taxon="FAQ"><details open><summary id="faq-stable"><header><h1><span class="taxon">FAQ 2.1. </span>Is this project stable yet? <a class="slug" href="https://kodama-community.github.io/faq/stable.html">[stable]</a></h1><div class="metadata"><ul></ul></div></header></summary>
+<p>$\gdef\kodama{\href{https://kodama-community.github.io/}{\includegraphics[height=0.7em, totalheight=0.7em, width=0.755em, alt=logo]{/assets/kodama.svg} ~ \color{fe7f7e}\text{Kodama}}}$</p>
+<p>Not yet. Although $\kodama$ already has quite a few features and some early adopters, it’s still in a very early stage, and breaking changes may be introduced with every release. That said, this could also be a good thing — it means many design decisions haven’t been finalized, so anyone can share ideas and actively contribute to shaping $\kodama$’s design.</p>
+</details></section>
+<section class="block hide-metadata" data-taxon="FAQ"><details open><summary id="faq-ssg"><header><h1><span class="taxon">FAQ 2.2. </span>Is this just a static site generator? <a class="slug" href="https://kodama-community.github.io/faq/ssg.html">[ssg]</a></h1><div class="metadata"><ul></ul></div></header></summary>
+<p>Almost, but it doesn’t actually prevent users from adding dynamic content. Currently, we’ve simply moved some of the dynamic features typically found in wiki-like systems into the compile phase.</p>
+</details></section>
+<section class="block hide-metadata" data-taxon="FAQ"><details open><summary id="faq-motive"><header><h1><span class="taxon">FAQ 2.3. </span>What motivated you to develop $\href{https://kodama-community.github.io/}{\includegraphics[height=0.7em, totalheight=0.7em, width=0.755em, alt=logo]{/assets/kodama.svg} ~ \color{fe7f7e}\text{Kodama}}$? <a class="slug" href="https://kodama-community.github.io/faq/motive.html">[motive]</a></h1><div class="metadata"><ul></ul></div></header></summary>
+<p>$\gdef\latex{\href{https://www.latex-project.org/}{\color{#008080}\LaTeX}}$</p>
+<p>$\gdef\katex{\href{https://katex.org/}{\color{#329894} \KaTeX}}$</p>
+<p>$\gdef\forester{\href{https://www.forester-notes.org/index/index.xml}{\color{#00B770} \text{Forester}}}$</p>
+<p>$\gdef\typst{\href{https://typst.app/}{\color{#239dad} \text{Typst}}}$</p>
+<p>$\gdef\kodama{\href{https://kodama-community.github.io/}{\includegraphics[height=0.7em, totalheight=0.7em, width=0.755em, alt=logo]{/assets/kodama.svg} ~ \color{fe7f7e}\text{Kodama}}}$</p>
+<p>The original motivation for the $\kodama$ project was to create a static blog engine that truly satisfied my needs, similar to what <span class="link external"><a href="https://hexo.io/" title="Hexo [https://hexo.io/]">Hexo</a></span>, <span class="link external"><a href="https://gohugo.io/" title="Hugo [https://gohugo.io/]">Hugo</a></span>, <span class="link external"><a href="https://www.getzola.org/" title="Zola [https://www.getzola.org/]">Zola</a></span> and <span class="link local"><a href="https://kodama-community.github.io/ssg.html" title="List of static site generators [ssg]">others</a></span> do.</p>
+<ul>
+<li>
+<p>Unfortunately, for various reasons, these static site generators (SSGs) all have issues when it comes to mathematical writing, which severely limits expressive power. This frustration persisted until I discovered $\typst$ and $\typst$.</p>
+</li>
+<li>
+<p>I believe $\forester$ can meet the complex demands of mathematical writing, but if I wanted to migrate my old blog posts, I’d have to completely rewrite them. Another factor was LaTeX’s slow compilation speed and suboptimal editing experience. So, I decided to replace $\forester$’s $\katex$ + $\latex$ scheme with $\katex$ + $\typst$.</p>
+</li>
+<li>
+<p>There’s also a smaller, yet still important, reason: I wanted a fully automatic dark theme that just works <span class="link external"><a href="https://en.wikipedia.org/wiki/Out_of_the_box_(feature)" title="out-of-the-box [https://en.wikipedia.org/wiki/Out_of_the_box_(feature)]">out-of-the-box</a></span>.</p>
+</li>
+</ul>
+</details></section>
+<section class="block hide-metadata" data-taxon="FAQ"><details open><summary id="faq-mascot"><header><h1><span class="taxon">FAQ 2.4. </span>What kind of animal is this? <a class="slug" href="https://kodama-community.github.io/faq/mascot.html">[mascot]</a></h1><div class="metadata"><ul></ul></div></header></summary>
+<p><span class="link external"><a href="https://en.wikipedia.org/wiki/Chinese_hwamei" title="Chinese hwamei [https://en.wikipedia.org/wiki/Chinese_hwamei]">Chinese hwamei</a></span>. <span class="link external"><a href="https://en.wikipedia.org/wiki/Ouyang_Xiu" title="Ouyang Xiu [https://en.wikipedia.org/wiki/Ouyang_Xiu]">Ouyang Xiu</a></span>, a literary figure of the Northern Song dynasty, wrote a <span class="link external"><a href="https://en.wikipedia.org/wiki/Qijue" title="Qiyan Jueju [https://en.wikipedia.org/wiki/Qijue]">Qiyan Jueju</a></span> titled “The Hwamei Bird” to celebrate the spirit of freedom.</p>
+<p>$$
+\small
+\begin{array}{cc}
+   \sf 百啭千声随意移 &amp; \sf 山花红紫树高低 \\
+   \sf 始知锁向金笼听 &amp; \sf 不及林间自在啼
+\end{array}
+$$</p>
+</details></section></p>
+</details></section></p>
+</details></section><footer></footer></article></div></body></html>
